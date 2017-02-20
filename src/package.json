@@ -1,19 +1,34 @@
 {
-  "name": "Movie DB",
+  "name": "movie-roulette",
   "version": "1.0.0",
-  "description": "A Movie fact and trivia app",
+  "description": "Movie fact and trivia alexa app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cbonoz/moviedb.git"
+  },
   "keywords": [
-    "alexa",
-    "skill",
-    "trivia"
+    "movie",
+    "netflix",
+    "roulette",
+    "information",
+    "fact",
+    "trivia",
+    "actor",
+    "movie",
+    "director"
   ],
-  "author": "Amazon.com",
-  "license": "Apache-2.0",
+  "author": "Chris Buonocore",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cbonoz/moviedb/issues"
+  },
+  "homepage": "https://github.com/cbonoz/moviedb#readme",
   "dependencies": {
-    "alexa-sdk": "^1.0.6"
+    "alexa-sdk": "^1.0.7",
+    "netflix-roulette": "^1.0.2"
   }
 }

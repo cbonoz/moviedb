@@ -2,9 +2,17 @@ ActorIntent actor {Actor}
 ActorIntent actress {Actor}
 ActorIntent tell me about the actor {Actor}
 ActorIntent tell me about the actress {Actor}
-ActorIntent What did {Actor} star in?
+ActorIntent What did {Actor} star in
+ActorIntent What movies did {Actor} star in
+ActorIntent What movies did {Actor} do
+ActorIntent What movies was {Actor} in
 
 MovieIntent movie {Movie}
 MovieIntent tell me about the movie {Movie}
-MovieIntent What actors were in {Movie}?
-MovieIntent Who starred in {Movie}?
+MovieIntent What actors were in {Movie}
+MovieIntent Who starred in {Movie}
+
+DirectorIntent director {Director}
+DirectorIntent tell me about the director {Director}
+DirectorIntent What movies did {Director} direct
+DirectorIntent What films did {Director} direct
