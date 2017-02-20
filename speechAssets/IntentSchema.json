@@ -1,7 +1,6 @@
 {"intents": [
-    {"intent": "AnswerIntent", "slots": [{"name": "Answer", "type": "AMAZON.NUMBER"}]},
-    {"intent": "DontKnowIntent"},
-    {"intent": "AMAZON.StartOverIntent"},
+    {"intent": "ActorIntent", "slots": [{"name": "Actor", "type": "ACTOR"}]},
+    {"intent": "MovieIntent", "slots": [{"name": "Movie", "type": "MOVIE"}]},
     {"intent": "AMAZON.RepeatIntent"},
     {"intent": "AMAZON.HelpIntent"},
     {"intent": "AMAZON.YesIntent"},

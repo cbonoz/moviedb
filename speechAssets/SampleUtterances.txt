@@ -1,0 +1,10 @@
+ActorIntent actor {Actor}
+ActorIntent actress {Actor}
+ActorIntent tell me about the actor {Actor}
+ActorIntent tell me about the actress {Actor}
+ActorIntent What did {Actor} star in?
+
+MovieIntent movie {Movie}
+MovieIntent tell me about the movie {Movie}
+MovieIntent What actors were in {Movie}?
+MovieIntent Who starred in {Movie}?

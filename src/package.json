@@ -1,7 +1,7 @@
 {
-  "name": "skill-sample-js-trivia",
+  "name": "Movie DB",
   "version": "1.0.0",
-  "description": "A simple trivia skill i18n version.",
+  "description": "A Movie fact and trivia app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
