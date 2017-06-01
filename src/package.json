@@ -29,6 +29,7 @@
   "homepage": "https://github.com/cbonoz/moviedb#readme",
   "dependencies": {
     "alexa-sdk": "^1.0.7",
+    "dateformat": "^2.0.0",
     "netflix-roulette": "^1.0.2"
   }
 }

@@ -17,3 +17,22 @@ DontKnowIntent who knows
 DontKnowIntent i don't know this question
 DontKnowIntent i don't know that one
 DontKnowIntent dunno
+
+
+
+ActorIntent tell me about the actor {Actor}
+ActorIntent tell me about the actress {Actor}
+ActorIntent What did {Actor} star in
+ActorIntent What movies did {Actor} star in
+ActorIntent What movies did {Actor} do
+ActorIntent What movies was {Actor} in
+
+MovieIntent tell me about the movie {Movie}
+MovieIntent What actors were in {Movie}
+MovieIntent Who starred in {Movie}
+
+DirectorIntent tell me about the director {Director}
+DirectorIntent What movies did {Director} direct
+DirectorIntent What films did {Director} direct
+
+ShowIntent tell me about the show {Show}

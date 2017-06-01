@@ -1,6 +1,7 @@
 # Movie Roulette - Alexa App
  ---
-Database of movie facts and trivia using the NeflixRoulette API (http://netflixroulette.net/api/).
+Database of movie facts and trivia using a combination of the NeflixRoulette API (http://netflixroulette.net/api/) 
+and the unofficial IMDB movie API (https://github.com/worr/node-imdb-api).
 
 Don't remember where you saw that actor or actress?
 
