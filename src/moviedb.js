@@ -12,51 +12,48 @@ let library = (function () {
     let noResultsText = "Could not find any results for: ";
     let authErrorText = "There was an authentication issue while retrieving your information, please reinstall " +
         "or re-authenticate the alexa app";
-    let askAgainText = "What next?";
+    let askAgainText = "Ask me about something else.";
     let openKey = '1fdc329a';
 
-    function extractMovies(response) {
-        let movies = [];
-        for (let i in response) {
-            let r = response[i];
-            movies.push(r['show_title']);
+    function sayList(listString) {
+        let lastComma = listString.lastIndexOf(',');
+        let result = listString;
+        if (lastComma > 1) {
+            result = listString.substr(0, lastComma) + ', and ' + listString.substr(lastComma+1);
         }
-        console.log('movies: ' + movies);
-        if (movies.length) {
-            return movies.join(", ");
-        } else {
-            return "";
-        }
+        return result;
     }
 
-    function extractDirected(response) {
+    function extractMovieTitles(response) {
         let movies = [];
         for (let i in response) {
             let r = response[i];
-            movies.push(r['show_title']);
+            movies.push(r['show_title'].replace(',', ' '));
         }
         console.log('movies: ' + movies);
-        if (movies.length) {
-            return movies.join(", ");
-        } else {
-            return "";
-        }
+        return sayList(movies.join(','));
     }
 
     function getAverageRatingFromEpisodes(episodes) {
-        const numEpisodes = episodes.length;
-        if (!numEpisodes) {
+        if (!episodes.length) {
             return 0;
         }
-        let rating = 0;
-        episodes.map((episode) => rating += parseFloat(episode.rating));
-        return rating / numEpisodes;
+
+        let rating = 0.0;
+        for (let i = 0; i < episodes.length; i++) {
+            let val = parseFloat(episodes[i].rating) || 0;
+            rating += val;
+            console.log(rating, val);
+        }
+        let average = rating / episodes.length;
+        return Math.round( average * 10 ) / 10; // one decimal rounding.
     }
+
 
     // function extractActors(response) {
     //     let actors = [];
     //
-    //     return actors.join(", ");
+    //     return actors.join(", ")
     // }
 
     return {
@@ -69,9 +66,9 @@ let library = (function () {
         NO_RESULTS_TEXT: noResultsText,
         ASK_AGAIN_TEXT: askAgainText,
         MY_KEY: openKey,
+        sayList: sayList,
         getAverageRatingFromEpisodes: getAverageRatingFromEpisodes,
-        extractMovies: extractMovies,
-        extractDirected: extractDirected
+        extractMovieTitles: extractMovieTitles
     };
 
 })();
