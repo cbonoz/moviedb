@@ -49,13 +49,6 @@ let library = (function () {
         return Math.round( average * 10 ) / 10; // one decimal rounding.
     }
 
-
-    // function extractActors(response) {
-    //     let actors = [];
-    //
-    //     return actors.join(", ")
-    // }
-
     return {
         APP_NAME: appName,
         WELCOME_TEXT: welcomeText,

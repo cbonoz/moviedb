@@ -30,10 +30,9 @@ let handlers = {
             self.emit('Unhandled')
         }
         imdb.get(movie, {apiKey: moviedb.MY_KEY}, (err, data) => {
-            if (!data.hasOwnProperty('title')) {
+            if (data == undefined || err != undefined) {
                 console.log('err: ' + JSON.stringify(err));
-                self.emit(':ask', err.message || moviedb.NO_RESULTS_TEXT + movie, moviedb.HELP_TEXT);
-                return;
+                self.emit(':ask', moviedb.NO_RESULTS_TEXT + movie, moviedb.HELP_TEXT);
             }
             // console.log('data: ' + JSON.stringify(data));
             if (data.hasOwnProperty('actors')) {
@@ -63,14 +62,13 @@ let handlers = {
             console.log('error: ' + error);
             if (error) {
                 self.emit(':ask', moviedb.SERVER_ERROR_TEXT, moviedb.HELP_TEXT);
-                return;
             }
             console.log('data: ' + JSON.stringify(data));
             if (!data.hasOwnProperty("message")) {
                 let movieString = moviedb.extractMovieTitles(data);
                 speechText = "Among others, " + actor + " was in: " + movieString; // + ". " + repromptText;
             } else {
-                speechText = "I could not find a director in my database matching " + actor; // + ". " + repromptText;
+                speechText = "I could not find a actor in my database matching " + actor; // + ". " + repromptText;
             }
             self.emit(':ask', speechText, repromptText);
         });
@@ -88,14 +86,13 @@ let handlers = {
             console.log('error: ' + error);
             if (error) {
                 self.emit(':ask', moviedb.SERVER_ERROR_TEXT, moviedb.HELP_TEXT);
-                return;
             }
             console.log('data: ' + JSON.stringify(data));
             if (!data.hasOwnProperty("message")) {
                 let directorString = moviedb.extractMovieTitles(data);
                 speechText = "Among others, " + director + " directed: " + directorString; // + ". " + repromptText;
             } else {
-                speechText = "I could not find any movies in my database by " + director; // + ". " + repromptText;
+                speechText = "I could not find a director in my database matching " + director; // + ". " + repromptText;
             }
             self.emit(':ask', speechText, repromptText);
         });
@@ -113,16 +110,14 @@ let handlers = {
         }
 
         imdb.get(show, {apiKey: moviedb.MY_KEY}, (err, data) => {
-            if (err) {
+            if (data == undefined || err != undefined) {
                 console.log('err finding show: ' + JSON.stringify(err));
-                self.emit(':ask', err.message || moviedb.NO_RESULTS_TEXT + show, moviedb.HELP_TEXT);
-                return;
+                self.emit(':ask', moviedb.NO_RESULTS_TEXT + show, moviedb.HELP_TEXT);
             }
             data.episodes((err, things) => {
                 if (!data.hasOwnProperty('title')) {
                     console.log('err getting episodes for show: ' + JSON.stringify(err));
-                    self.emit(':ask', err.message || moviedb.NO_RESULTS_TEXT + show, moviedb.HELP_TEXT);
-                    return;
+                    self.emit(':ask', moviedb.NO_RESULTS_TEXT + show, moviedb.HELP_TEXT);
                 }
 
                 let episodes = data._episodes;
@@ -136,7 +131,7 @@ let handlers = {
                     speechText = util.format('%s has %d episodes across %d seasons, from %s to the most recent episode on %s, with an ' +
                         'average rating of ', show, lastIndex + 1, seasons, startDate, endDate, averageRating);
                 } else {
-                    speechText = "I could not find any episodes in my database for " + show;// + ". " + moviedb.ASK_AGAIN_TEXT;
+                    speechText = "I could not find any entries in my database matching the show " + show;// + ". " + moviedb.ASK_AGAIN_TEXT;
                 }
 
                 self.emit(':ask', speechText, repromptText);

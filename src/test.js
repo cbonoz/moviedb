@@ -9,6 +9,9 @@ const dateformat = require('dateformat');
 const util = require('util');
 const apiKey = '1fdc329a';
 
+// let show = 'suits';
+// let movie = 'jurassic park';
+
 // Promises!
 // imdb.get('Sidewayfs', {apiKey: apiKey}, (err, data) => {
 //     if (err) {
@@ -24,7 +27,6 @@ const apiKey = '1fdc329a';
 // });
 // imdb.getById('tt0090190', {apiKey: apiKey}).then(console.log);
 // imdb.getReq({ name: 'The Toxic Avenger', opts: {apiKey: apiKey} }).then(console.log);
-let show = 'suits';
 
 // imdb.get(show, {apiKey: moviedb.MY_KEY}, (err, data) => {
 //     if (err) {
@@ -57,21 +59,20 @@ let show = 'suits';
 //         console.log('speechtext: ' + JSON.stringify(speechText))
 //     });
 // });
-let movie = 'jurassic park';
-
-imdb.get(movie, {apiKey: moviedb.MY_KEY}, (err, data) => {
-    if (!data.hasOwnProperty('title')) {
-        console.log('err: ' + JSON.stringify(err));
-        // self.emit(':ask', err.message || moviedb.NO_RESULTS_TEXT + movie, moviedb.HELP_TEXT);
-        return;
-    }
-    let speechText;
-    console.log('data: ' + JSON.stringify(data));
-    if (data.hasOwnProperty('actors')) {
-        let actorString = data['actors'];
-        speechText = movie + " starred: " + actorString + ". " + moviedb.ASK_AGAIN_TEXT;
-    } else {
-        speechText = "I could not find any actors in my database for " + movie + ". " + moviedb.ASK_AGAIN_TEXT;
-    }
-    console.log(moviedb.sayList(speechText));
-});
+//
+// imdb.get(movie, {apiKey: moviedb.MY_KEY}, (err, data) => {
+//     if (!data.hasOwnProperty('title')) {
+//         console.log('err: ' + JSON.stringify(err));
+//         // self.emit(':ask', err.message || moviedb.NO_RESULTS_TEXT + movie, moviedb.HELP_TEXT);
+//         return;
+//     }
+//     let speechText;
+//     console.log('data: ' + JSON.stringify(data));
+//     if (data.hasOwnProperty('actors')) {
+//         let actorString = data['actors'];
+//         speechText = movie + " starred: " + actorString + ". " + moviedb.ASK_AGAIN_TEXT;
+//     } else {
+//         speechText = "I could not find any actors in my database for " + movie + ". " + moviedb.ASK_AGAIN_TEXT;
+//     }
+//     console.log(moviedb.sayList(speechText));
+// });
