@@ -38,9 +38,9 @@ let handlers = {
             // console.log('data: ' + JSON.stringify(data));
             if (data.hasOwnProperty('actors')) {
                 let actorString = moviedb.sayList(data['actors']);
-                speechText = movie + " starred: " + actorString + ". " + repromptText;
+                speechText = movie + " starred: " + actorString; // + ". " + repromptText;
             } else {
-                speechText = "I could not find any actors in my database for " + movie + ". " + repromptText;
+                speechText = "I could not find any actors in my database for " + movie; // + ". " + repromptText;
             }
             self.emit(':ask', speechText, repromptText);
         });
