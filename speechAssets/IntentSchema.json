@@ -1,6 +1,7 @@
 {"intents": [
     {"intent": "ActorIntent", "slots": [{"name": "Actor", "type": "ACTOR"}]},
     {"intent": "MovieIntent", "slots": [{"name": "Movie", "type": "MOVIE"}]},
+    {"intent": "ShowIntent", "slots": [{"name": "Show", "type": "SHOW"}]},
     {"intent": "DirectorIntent", "slots": [{"name": "Director", "type": "DIRECTOR"}]},
     {"intent": "AMAZON.RepeatIntent"},
     {"intent": "AMAZON.HelpIntent"},

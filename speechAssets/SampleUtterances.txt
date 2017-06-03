@@ -4,8 +4,6 @@ MovieIntent movie {Movie}
 DirectorIntent director {Director}
 ShowIntent show {Show}
 
-
-
 ActorIntent tell me about the actor {Actor}
 ActorIntent tell me about the actress {Actor}
 ActorIntent What did {Actor} star in
