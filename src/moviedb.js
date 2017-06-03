@@ -2,11 +2,11 @@
 let library = (function () {
 
     let appName = 'Movie Roulette';
-    let welcomeText = "Welcome to " + appName + ". I can give you quick information about your favorite movies, stars, and shows.";
+    let welcomeText = "Welcome to " + appName + ". I can give you quick information about your favorite movies, stars, and shows. ";
     // let helpText = "You can say something like 'tell me about actor Leonardo Dicaprio.' Or just say actor, movie, or director " +
     //     "followed by the name - such as 'director Steven Spielberg'.";
     let helpText = "You can say 'actor', 'director', 'movie', or 'show' - followed by the name - such as saying " +
-        "'director Steven Spielberg' or 'actor Leonardo Dicaprio.'";
+        "'director Steven Spielberg' or 'actor Leonardo Dicaprio.' ";
     let exitText = 'Closed ' + appName;
     let serverErrorText = "Could not retrieve information from server.";
     let noResultsText = "Could not find any results for: ";
