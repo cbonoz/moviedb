@@ -1,4 +1,4 @@
-# Movie Roulette - Alexa App
+# Movie Roulette - Public Alexa Skill
  ---
 Database of movie facts and trivia using a combination of the NeflixRoulette API (http://netflixroulette.net/api/) 
 and the unofficial IMDB movie API (https://github.com/worr/node-imdb-api).
@@ -26,7 +26,9 @@ and unofficial IMDB api data services.
 
 **You**: Alexa, cancel
 
-#### Video Here: https://vimeo.com/204956725
+**Alexa**: Exited Movie Roulette
 
-####  Dev Notes:
-Zip instructions: zip -r -X ../src.zip *
+
+###  Dev Notes:
+* Zip instructions: zip -r -X ../src.zip *
+* Video here : https://vimeo.com/204956725
