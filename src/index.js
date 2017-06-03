@@ -37,10 +37,15 @@ let handlers = {
             }
             // console.log('data: ' + JSON.stringify(data));
             if (data.hasOwnProperty('actors')) {
-                let actorString = moviedb.sayList(data['actors']);
-                speechText = movie + " starred: " + actorString; // + ". " + repromptText;
+                const releaseDate = dateformat(data.released, "mmmm dS, yyyy") || '';
+                const director = data.director || '';
+                const actorString = moviedb.sayList(data['actors']) || '';
+                const rating = data.rating || '';
+
+                speechText = util.format('%s was released on %s by director %s, starring %s. ' +
+                    'It\'s average user rating was: %s', movie, releaseDate, director, actorString, rating);
             } else {
-                speechText = "I could not find any actors in my database for " + movie; // + ". " + repromptText;
+                speechText = "I could not find a movie in my database matching " + movie; // + ". " + repromptText;
             }
             self.emit(':ask', speechText, repromptText);
         });
@@ -65,7 +70,7 @@ let handlers = {
                 let movieString = moviedb.extractMovieTitles(data);
                 speechText = "Among others, " + actor + " was in: " + movieString; // + ". " + repromptText;
             } else {
-                speechText = "I could not find a movie in my database with " + actor; // + ". " + repromptText;
+                speechText = "I could not find a director in my database matching " + actor; // + ". " + repromptText;
             }
             self.emit(':ask', speechText, repromptText);
         });

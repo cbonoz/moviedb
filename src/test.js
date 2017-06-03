@@ -66,7 +66,7 @@ imdb.get(movie, {apiKey: moviedb.MY_KEY}, (err, data) => {
         return;
     }
     let speechText;
-    // console.log('data: ' + JSON.stringify(data));
+    console.log('data: ' + JSON.stringify(data));
     if (data.hasOwnProperty('actors')) {
         let actorString = data['actors'];
         speechText = movie + " starred: " + actorString + ". " + moviedb.ASK_AGAIN_TEXT;
