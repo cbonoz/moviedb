@@ -1,4 +1,4 @@
-# Movie Roulette - Public Alexa Skill
+# Movie Roulette - Alexa Skill Code Repository
  ---
 Database of movie facts and trivia using a combination of the NeflixRoulette API (http://netflixroulette.net/api/) 
 and the unofficial IMDB movie API (https://github.com/worr/node-imdb-api).
@@ -30,5 +30,9 @@ and unofficial IMDB api data services.
 
 
 ###  Dev Notes:
-* Zip instructions: zip -r -X ../src.zip *
+* You're going to need your own node imdb api key (see above github link) if you want to test/use this application externally.
+You can either add this key to a module called ./src/auth.js as used in the code, or you can replace its usage in index.js.
+* Zip instructions for aws submission (run from /src): zip -r -X ../src.zip *
 * Video here : https://vimeo.com/204956725
+
+

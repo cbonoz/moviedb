@@ -146,7 +146,7 @@ let handlers = {
                         'average rating of %s.', show, lastIndex + 1, seasons, startDate, endDate, averageRating);
                     self.emit(':tell', speechText);
                 } else {
-                    speechText = "I could not find any entries in my database matching the show " + show + ". " + moviedb.ASK_AGAIN_TEXT;
+                    speechText = "I could not find any entries in my database matching the show " + show + ". " + repromptText;
                     self.emit(':ask', speechText, repromptText);
                 }
 
@@ -155,7 +155,7 @@ let handlers = {
     },
 
     'Unhandled': function () {
-        let repromptText = "Say 'help' to get a list of commands";// for " + moviedb.APP_NAME;
+        let repromptText = "Say 'help' to get a list of commands";
         let speechText = "Sorry, I didn\'t get that. " + repromptText;
         this.emit(':ask', speechText, repromptText);
     },

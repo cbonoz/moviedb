@@ -4,8 +4,6 @@ let library = (function () {
 
     let appName = 'Movie Roulette';
     let welcomeText = "Welcome to " + appName + ". I can give you quick information about your favorite movies, stars, and shows. ";
-    // let helpText = "You can say something like 'tell me about actor Leonardo Dicaprio.' Or just say actor, movie, or director " +
-    //     "followed by the name - such as 'director Steven Spielberg'.";
     let helpText = "You can say 'actor', 'director', 'movie', or 'show' - followed by the name - such as saying " +
         "'director Steven Spielberg' or 'actor Leonardo Dicaprio.'";
     let exitText = 'Closed ' + appName;
@@ -43,14 +41,11 @@ let library = (function () {
         let numReviews = 0;
         for (let i = 0; i < episodes.length; i++) {
             let val = parseFloat(episodes[i].rating) || -1;
+            // If parseable (often the review can be N/A)
             if (val != -1) {
                 rating += val;
                 numReviews += 1;
-                // console.log(rating, val);
             }
-            // else {
-                // console.log('unparseable rating: ' + episodes[i].rating)
-            // }
         }
         let average = rating / numReviews;
         console.log('reviews, reviews with valid rating: ', episodes.length, numReviews);
