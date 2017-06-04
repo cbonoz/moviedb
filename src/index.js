@@ -1,16 +1,16 @@
 "use strict";
 /**
- * Movie Information Lookup App.
- * Make sure the first answer is the correct one. Set at least ANSWER_COUNT answers, any extras will be shuffled in.
+ * Movie Roulette. Movie Information Lookup Alexa App.
  */
 const Alexa = require("alexa-sdk");
-// Optional: replace undefined app id with your app ID.
 const APP_ID = 'amzn1.ask.skill.24985af4-77a4-489c-9790-79220c8e7b68';
 const imdb = require('imdb-api');
-const dateformat = require('dateformat');
 const util = require('util');
-const moviedb = require('./moviedb');
 const netflix = require('netflix-roulette');
+
+// My libraries.
+const auth = require('./auth');
+const moviedb = require('./moviedb');
 // let languageString = moviedb.LANGUAGE_STRING;
 
 let handlers = {
@@ -29,7 +29,7 @@ let handlers = {
         if (!movie) {
             self.emit('Unhandled')
         }
-        imdb.get(movie, {apiKey: moviedb.MY_KEY}, (err, data) => {
+        imdb.get(movie, {apiKey: auth.IMDB_KEY}, (err, data) => {
             if (data == undefined || err != undefined) {
                 console.log('err: ' + JSON.stringify(err));
                 self.emit(':ask', moviedb.NO_RESULTS_TEXT + movie, moviedb.HELP_TEXT);
@@ -43,10 +43,11 @@ let handlers = {
 
                 speechText = util.format('%s was released on %s by director %s, starring %s. ' +
                     'It\'s average user rating was: %s', movie, releaseDate, director, actorString, rating);
+                self.emit(':tell', speechText);
             } else {
-                speechText = "I could not find a movie in my database matching " + movie; // + ". " + repromptText;
+                speechText = "I could not find a movie in my database matching " + movie + ". " + repromptText;
+                self.emit(':ask', speechText, repromptText);
             }
-            self.emit(':ask', speechText, repromptText);
         });
     },
 
@@ -67,10 +68,11 @@ let handlers = {
             if (!data.hasOwnProperty("message")) {
                 let movieString = moviedb.extractMovieTitles(data);
                 speechText = "Among others, " + actor + " was in: " + movieString; // + ". " + repromptText;
+                self.emit(':tell', speechText);
             } else {
-                speechText = "I could not find a actor in my database matching " + actor; // + ". " + repromptText;
+                speechText = "I could not find a actor in my database matching " + actor + ". " + repromptText;
+                self.emit(':ask', speechText, repromptText);
             }
-            self.emit(':ask', speechText, repromptText);
         });
     },
 
@@ -91,10 +93,11 @@ let handlers = {
             if (!data.hasOwnProperty("message")) {
                 let directorString = moviedb.extractMovieTitles(data);
                 speechText = "Among others, " + director + " directed: " + directorString; // + ". " + repromptText;
+                self.emit(':tell', speechText);
             } else {
-                speechText = "I could not find a director in my database matching " + director; // + ". " + repromptText;
+                speechText = "I could not find a director in my database matching " + director + ". " + repromptText;
+                self.emit(':ask', speechText, repromptText);
             }
-            self.emit(':ask', speechText, repromptText);
         });
     },
 
@@ -109,7 +112,7 @@ let handlers = {
             self.emit('Unhandled')
         }
 
-        imdb.get(show, {apiKey: moviedb.MY_KEY}, (err, data) => {
+        imdb.get(show, {apiKey: auth.IMDB_KEY}, (err, data) => {
             if (data == undefined || err != undefined) {
                 console.log('err finding show: ' + JSON.stringify(err));
                 self.emit(':ask', moviedb.NO_RESULTS_TEXT + show, moviedb.HELP_TEXT);
@@ -123,18 +126,30 @@ let handlers = {
                 let episodes = data._episodes;
                 if (episodes.length > 0) {
                     const lastIndex = episodes.length - 1;
-                    const seasons = episodes[lastIndex].season;
+                    const seasons = episodes[lastIndex].season || 'a number of';
                     const averageRating = moviedb.getAverageRatingFromEpisodes(episodes);
-                    const startDate = dateformat(episodes[0].released, "mmmm dS, yyyy");
-                    const endDate = dateformat(episodes[lastIndex].released, "mmmm dS, yyyy");
+                    let startDate = '';
+                    let endDate = '';
 
-                    speechText = util.format('%s has %d episodes across %d seasons, from %s to the most recent episode on %s, with an ' +
-                        'average rating of ', show, lastIndex + 1, seasons, startDate, endDate, averageRating);
+                    let i = 0;
+                    while (startDate === '' && i < episodes.length) {
+                        startDate = moviedb.parseDateFromEpisode(episodes[i]);
+                        i += 1
+                    }
+                    i = lastIndex;
+                    while (endDate === '' && i >= 0) {
+                        endDate = moviedb.parseDateFromEpisode(episodes[i]);
+                        i -= 1
+                    }
+
+                    speechText = util.format('%s has %d episodes across %s seasons, from %s to a most recent episode on %s, with an ' +
+                        'average rating of %s.', show, lastIndex + 1, seasons, startDate, endDate, averageRating);
+                    self.emit(':tell', speechText);
                 } else {
-                    speechText = "I could not find any entries in my database matching the show " + show;// + ". " + moviedb.ASK_AGAIN_TEXT;
+                    speechText = "I could not find any entries in my database matching the show " + show + ". " + moviedb.ASK_AGAIN_TEXT;
+                    self.emit(':ask', speechText, repromptText);
                 }
 
-                self.emit(':ask', speechText, repromptText);
             });
         });
     },
