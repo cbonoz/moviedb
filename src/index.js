@@ -67,7 +67,7 @@ let handlers = {
             console.log('data: ' + JSON.stringify(data));
             if (!data.hasOwnProperty("message")) {
                 let movieString = moviedb.extractMovieTitles(data);
-                speechText = "Among others, " + actor + " was in: " + movieString; // + ". " + repromptText;
+                speechText = "Among other films, " + actor + " was in: " + movieString; // + ". " + repromptText;
                 self.emit(':tell', speechText);
             } else {
                 speechText = "I could not find a actor in my database matching " + actor + ". " + repromptText;
@@ -92,7 +92,7 @@ let handlers = {
             console.log('data: ' + JSON.stringify(data));
             if (!data.hasOwnProperty("message")) {
                 let directorString = moviedb.extractMovieTitles(data);
-                speechText = "Among others, " + director + " directed: " + directorString; // + ". " + repromptText;
+                speechText = "Among other films, " + director + " directed: " + directorString; // + ". " + repromptText;
                 self.emit(':tell', speechText);
             } else {
                 speechText = "I could not find a director in my database matching " + director + ". " + repromptText;
