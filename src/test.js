@@ -13,7 +13,7 @@ const auth = require('./auth');
 const apiKey = auth.IMDB_KEY;
 
 let actor = 'Leonardo Dicaprio';
-let show = 'white collar';
+let show = 'spongebob';
 let movie = 'transformers'; //'inception';
 let director = 'michael bay';
 //
@@ -51,20 +51,20 @@ let director = 'michael bay';
 //     console.log('speechText: ' + speechText);
 // });
 //
-netflix.actor(actor, function (error, data) {
-    if (error) {
-        console.log('error: ' + error);
-    }
-    let speechText = '';
-    console.log('data: ' + JSON.stringify(data));
-    if (!data.hasOwnProperty("message")) {
-        let movieString = moviedb.extractMovieTitles(data);
-        speechText = "Among others, " + actor + " was in: " + movieString; // + ". " + repromptText;
-    } else {
-        speechText = "I could not find a actor in my database matching " + actor;
-    }
-    console.log('speechText: ' + speechText);
-});
+// netflix.actor(actor, function (error, data) {
+//     if (error) {
+//         console.log('error: ' + error);
+//     }
+//     let speechText = '';
+//     console.log('data: ' + JSON.stringify(data));
+//     if (!data.hasOwnProperty("message")) {
+//         let movieString = moviedb.extractMovieTitles(data);
+//         speechText = "Among others, " + actor + " was in: " + movieString; // + ". " + repromptText;
+//     } else {
+//         speechText = "I could not find a actor in my database matching " + actor;
+//     }
+//     console.log('speechText: ' + speechText);
+// });
 
 imdb.get(show, {apiKey: auth.IMDB_KEY}, (err, data) => {
     if (err) {
