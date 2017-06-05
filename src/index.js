@@ -42,11 +42,9 @@ let handlers = {
                 speechText = util.format('%s was released on %s by director %s, starring %s. ' +
                     'It\'s average user rating was: %s', movie, releaseDate, director, actorString, rating);
                 self.emit(':tell', speechText);
-                return;
             } else {
                 speechText = "I could not find a movie in my database matching " + movie + ". ";
                 self.emit(':ask', speechText, repromptText);
-                return;
             }
         });
     },
@@ -97,11 +95,9 @@ let handlers = {
                     speechText = util.format('%s has %d episodes across %s seasons, from %s to a most recent episode on %s, with an ' +
                         'average rating of %s.', show, lastIndex + 1, seasons, startDate, endDate, averageRating);
                     self.emit(':tell', speechText);
-                    return;
                 } else {
                     speechText = "I could not find any entries in my database matching the show " + show + ". " + repromptText;
                     self.emit(':ask', speechText, repromptText);
-                    return;
                 }
             });
         });
