@@ -51,54 +51,6 @@ let handlers = {
         });
     },
 
-    'ActorIntent': function () {
-        const self = this;
-        const repromptText = moviedb.ASK_AGAIN_TEXT;
-        const actor = this.event.request.intent.slots.Actor.value;
-        let speechText = "";
-        if (!actor) {
-            self.emit('Unhandled')
-        }
-        netflix.actor(actor, function (error, data) {
-            if (error) {
-                console.log('error: ' + error);
-            }
-            // console.log('data: ' + JSON.stringify(data));
-            if (!data.hasOwnProperty("message")) {
-                let movieString = moviedb.extractMovieTitles(data);
-                speechText = "Among other films, " + actor + " was in: " + movieString; // + ". " + repromptText;
-                self.emit(':tell', speechText);
-            } else {
-                speechText = "I could not find a actor in my database matching " + actor + ". " + repromptText;
-                self.emit(':ask', speechText, repromptText);
-            }
-        });
-    },
-
-    'DirectorIntent': function () {
-        const self = this;
-        const repromptText = moviedb.ASK_AGAIN_TEXT;
-        const director = this.event.request.intent.slots.Director.value;
-        let speechText = "";
-        if (!director) {
-            self.emit('Unhandled')
-        }
-        netflix.director(director, function (error, data) {
-            if (error) {
-                console.log('error: ' + error);
-            }
-
-            console.log('data: ' + JSON.stringify(data));
-            if (data !== undefined && !data.hasOwnProperty("message")) {
-                let directorString = moviedb.extractMovieTitles(data);
-                speechText = "Among other films, " + director + " directed: " + directorString; // + ". " + repromptText;
-                self.emit(':tell', speechText);
-            } else {
-                speechText = "I could not find a director in my database matching " + director + ". " + repromptText;
-                self.emit(':ask', speechText, repromptText);
-            }
-        });
-    },
 
     'ShowIntent': function () {
         const self = this;
@@ -152,6 +104,55 @@ let handlers = {
                     return;
                 }
             });
+        });
+    },
+
+    'ActorIntent': function () {
+        const self = this;
+        const repromptText = moviedb.ASK_AGAIN_TEXT;
+        const actor = this.event.request.intent.slots.Actor.value;
+        let speechText = "";
+        if (!actor) {
+            self.emit('Unhandled')
+        }
+        netflix.actor(actor, function (error, data) {
+            if (error) {
+                console.log('error: ' + error);
+            }
+            // console.log('data: ' + JSON.stringify(data));
+            if (data !== undefined && !data.hasOwnProperty("message")) {
+                let movieString = moviedb.extractMovieTitles(data);
+                speechText = "Among other films, " + actor + " was in: " + movieString; // + ". " + repromptText;
+                self.emit(':tell', speechText);
+            } else {
+                speechText = "I could not find a actor in my database matching " + actor + ". " + repromptText;
+                self.emit(':ask', speechText, repromptText);
+            }
+        });
+    },
+
+    'DirectorIntent': function () {
+        const self = this;
+        const repromptText = moviedb.ASK_AGAIN_TEXT;
+        const director = this.event.request.intent.slots.Director.value;
+        let speechText = "";
+        if (!director) {
+            self.emit('Unhandled')
+        }
+        netflix.director(director, function (error, data) {
+            if (error) {
+                console.log('error: ' + error);
+            }
+
+            console.log('data: ' + JSON.stringify(data));
+            if (data !== undefined && !data.hasOwnProperty("message")) {
+                let directorString = moviedb.extractMovieTitles(data);
+                speechText = "Among other films, " + director + " directed: " + directorString; // + ". " + repromptText;
+                self.emit(':tell', speechText);
+            } else {
+                speechText = "I could not find a director in my database matching " + director + ". " + repromptText;
+                self.emit(':ask', speechText, repromptText);
+            }
         });
     },
 
