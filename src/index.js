@@ -29,14 +29,12 @@ let handlers = {
         if (!movie) {
             self.emit('Unhandled')
         }
+
         imdb.get(movie, {apiKey: auth.IMDB_KEY}, (err, data) => {
-            if (data == undefined || err != undefined) {
-                console.log('err: ' + JSON.stringify(err));
-                self.emit(':ask', moviedb.NO_RESULTS_TEXT + movie, moviedb.HELP_TEXT);
-            }
-            // console.log('data: ' + JSON.stringify(data));
-            if (data.hasOwnProperty('actors')) {
-                const releaseDate = dateformat(data.released, "mmmm dS, yyyy") || '';
+
+            console.log('err, data: ', JSON.stringify(err), JSON.stringify(data));
+            if (data !== undefined && data.hasOwnProperty('actors')) {
+                const releaseDate = moviedb.parseDateFromReleased(data);
                 const director = data.director || '';
                 const actorString = moviedb.sayList(data['actors']) || '';
                 const rating = data.rating || '';
@@ -44,9 +42,11 @@ let handlers = {
                 speechText = util.format('%s was released on %s by director %s, starring %s. ' +
                     'It\'s average user rating was: %s', movie, releaseDate, director, actorString, rating);
                 self.emit(':tell', speechText);
+                return;
             } else {
-                speechText = "I could not find a movie in my database matching " + movie + ". " + repromptText;
+                speechText = "I could not find a movie in my database matching " + movie + ". ";
                 self.emit(':ask', speechText, repromptText);
+                return;
             }
         });
     },
@@ -60,11 +60,10 @@ let handlers = {
             self.emit('Unhandled')
         }
         netflix.actor(actor, function (error, data) {
-            console.log('error: ' + error);
             if (error) {
-                self.emit(':ask', moviedb.SERVER_ERROR_TEXT, moviedb.HELP_TEXT);
+                console.log('error: ' + error);
             }
-            console.log('data: ' + JSON.stringify(data));
+            // console.log('data: ' + JSON.stringify(data));
             if (!data.hasOwnProperty("message")) {
                 let movieString = moviedb.extractMovieTitles(data);
                 speechText = "Among other films, " + actor + " was in: " + movieString; // + ". " + repromptText;
@@ -85,12 +84,12 @@ let handlers = {
             self.emit('Unhandled')
         }
         netflix.director(director, function (error, data) {
-            console.log('error: ' + error);
             if (error) {
-                self.emit(':ask', moviedb.SERVER_ERROR_TEXT, moviedb.HELP_TEXT);
+                console.log('error: ' + error);
             }
+
             console.log('data: ' + JSON.stringify(data));
-            if (!data.hasOwnProperty("message")) {
+            if (data !== undefined && !data.hasOwnProperty("message")) {
                 let directorString = moviedb.extractMovieTitles(data);
                 speechText = "Among other films, " + director + " directed: " + directorString; // + ". " + repromptText;
                 self.emit(':tell', speechText);
@@ -113,17 +112,18 @@ let handlers = {
         }
 
         imdb.get(show, {apiKey: auth.IMDB_KEY}, (err, data) => {
-            if (data == undefined || err != undefined) {
+            if (data === undefined) {
                 console.log('err finding show: ' + JSON.stringify(err));
-                self.emit(':ask', moviedb.NO_RESULTS_TEXT + show, moviedb.HELP_TEXT);
+                self.emit(':ask', moviedb.NO_RESULTS_TEXT + ' show ' + show, moviedb.HELP_TEXT);
             }
             data.episodes((err, things) => {
-                if (!data.hasOwnProperty('title')) {
-                    console.log('err getting episodes for show: ' + JSON.stringify(err));
-                    self.emit(':ask', moviedb.NO_RESULTS_TEXT + show, moviedb.HELP_TEXT);
+                let episodes;
+                if (data !== undefined && data.hasOwnProperty('_episodes')) {
+                    episodes = data._episodes;
+                } else {
+                    episodes = [];
                 }
 
-                let episodes = data._episodes;
                 if (episodes.length > 0) {
                     const lastIndex = episodes.length - 1;
                     const seasons = episodes[lastIndex].season || 'a number of';
@@ -133,23 +133,24 @@ let handlers = {
 
                     let i = 0;
                     while (startDate === '' && i < episodes.length) {
-                        startDate = moviedb.parseDateFromEpisode(episodes[i]);
+                        startDate = moviedb.parseDateFromReleased(episodes[i]);
                         i += 1
                     }
                     i = lastIndex;
                     while (endDate === '' && i >= 0) {
-                        endDate = moviedb.parseDateFromEpisode(episodes[i]);
+                        endDate = moviedb.parseDateFromReleased(episodes[i]);
                         i -= 1
                     }
 
                     speechText = util.format('%s has %d episodes across %s seasons, from %s to a most recent episode on %s, with an ' +
                         'average rating of %s.', show, lastIndex + 1, seasons, startDate, endDate, averageRating);
                     self.emit(':tell', speechText);
+                    return;
                 } else {
                     speechText = "I could not find any entries in my database matching the show " + show + ". " + repromptText;
                     self.emit(':ask', speechText, repromptText);
+                    return;
                 }
-
             });
         });
     },

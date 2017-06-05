@@ -76,7 +76,7 @@ let library = (function () {
         sayList: sayList,
         getAverageRatingFromEpisodes: getAverageRatingFromEpisodes,
         extractMovieTitles: extractMovieTitles,
-        parseDateFromEpisode: parseDateFromEpisode
+        parseDateFromReleased: parseDateFromEpisode
     };
 
 })();

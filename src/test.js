@@ -12,40 +12,51 @@ const auth = require('./auth');
 
 const apiKey = auth.IMDB_KEY;
 
-let actor = 'Herbert Rudley';
-let show = 'game of thrones';
-let movie = 'jurassic park';
+let actor = 'Leonardo Dicaprio';
+let show = 'white collar';
+let movie = 'transformers'; //'inception';
 let director = 'michael bay';
+//
+// // Promises!
+// imdb.get(movie, {apiKey: auth.IMDB_KEY}, (err, data) => {
+//     let speechText = '';
+//     // console.log('data: ' + JSON.stringify(data));
+//     if (data !== undefined && data.hasOwnProperty('actors')) {
+//         const releaseDate = dateformat(data.released, "mmmm dS, yyyy") || '';
+//         const director = data.director || '';
+//         const actorString = moviedb.sayList(data['actors']) || '';
+//         const rating = data.rating || '';
+//
+//         speechText = util.format('%s was released on %s by director %s, starring %s. ' +
+//             'It\'s average user rating was: %s', movie, releaseDate, director, actorString, rating);
+//     } else {
+//         speechText = "I could not find a movie in my database matching " + movie + ". ";
+//     }
+//     console.log('speech: ' + speechText)
+// });
 
-// Promises!
-imdb.get(movie, {apiKey: apiKey}, (err, data) => {
-    if (err) {
-        console.log('err: ' + JSON.stringify(err));
-        return;
-    }
-    console.log(JSON.stringify(data));
-
-});
-netflix.director(director, function (error, data) {
-    if (error) {
-        console.log('error: ' + error);
-    }
-    let speechText = "";
-    console.log('data: ' + JSON.stringify(data));
-    if (!data.hasOwnProperty("message")) {
-        let directorString = moviedb.extractMovieTitles(data);
-        speechText = "Among others, " + director + " directed: " + directorString;
-    } else {
-        speechText = "I could not find a director in my database matching " + director;
-    }
-    console.log('speechText: ' + speechText);
-});
-
+//
+// netflix.director(director, function (error, data) {
+//     if (error) {
+//         console.log('error: ' + error);
+//     }
+//     let speechText = "";
+//     console.log('data: ' + JSON.stringify(data));
+//     if (!data.hasOwnProperty("message")) {
+//         let directorString = moviedb.extractMovieTitles(data);
+//         speechText = "Among others, " + director + " directed: " + directorString;
+//     } else {
+//         speechText = "I could not find a director in my database matching " + director;
+//     }
+//     console.log('speechText: ' + speechText);
+// });
+//
 netflix.actor(actor, function (error, data) {
     if (error) {
         console.log('error: ' + error);
     }
     let speechText = '';
+    console.log('data: ' + JSON.stringify(data));
     if (!data.hasOwnProperty("message")) {
         let movieString = moviedb.extractMovieTitles(data);
         speechText = "Among others, " + actor + " was in: " + movieString; // + ". " + repromptText;
@@ -63,13 +74,13 @@ imdb.get(show, {apiKey: auth.IMDB_KEY}, (err, data) => {
 
     let speechText;
     data.episodes((err, things) => {
-        if (!data.hasOwnProperty('title')) {
-            console.log('err level 2: ', JSON.stringify(err), "data: ", JSON.stringify(data));
-            // self.emit(':ask', err.message || moviedb.NO_RESULTS_TEXT + show, moviedb.HELP_TEXT);
-            return;
+        let episodes;
+        if (data !== undefined && data.hasOwnProperty('_episodes')) {
+            episodes = data._episodes;
+        } else {
+            episodes = [];
         }
 
-        let episodes = data._episodes;
         if (episodes.length > 0) {
             const lastIndex = episodes.length - 1;
             const seasons = episodes[lastIndex].season || 'a number of';
@@ -79,12 +90,12 @@ imdb.get(show, {apiKey: auth.IMDB_KEY}, (err, data) => {
 
             let i = 0;
             while (startDate === '' && i < episodes.length) {
-                startDate = moviedb.parseDateFromEpisode(episodes[i]);
+                startDate = moviedb.parseDateFromReleased(episodes[i]);
                 i += 1
             }
             i = lastIndex;
             while (endDate === '' && i >= 0) {
-                endDate = moviedb.parseDateFromEpisode(episodes[i]);
+                endDate = moviedb.parseDateFromReleased(episodes[i]);
                 i -= 1
             }
 
