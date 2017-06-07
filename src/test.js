@@ -15,7 +15,7 @@ const apiKey = auth.IMDB_KEY;
 let actor = 'Leonardo Dicaprio';
 let show = 'spongebob';
 let movie = 'transformers'; //'inception';
-let director = 'michael bay';
+let director = 'george stevens';
 //
 // // Promises!
 // imdb.get(movie, {apiKey: auth.IMDB_KEY}, (err, data) => {
@@ -35,22 +35,22 @@ let director = 'michael bay';
 //     console.log('speech: ' + speechText)
 // });
 
-//
-// netflix.director(director, function (error, data) {
-//     if (error) {
-//         console.log('error: ' + error);
-//     }
-//     let speechText = "";
-//     console.log('data: ' + JSON.stringify(data));
-//     if (!data.hasOwnProperty("message")) {
-//         let directorString = moviedb.extractMovieTitles(data);
-//         speechText = "Among others, " + director + " directed: " + directorString;
-//     } else {
-//         speechText = "I could not find a director in my database matching " + director;
-//     }
-//     console.log('speechText: ' + speechText);
-// });
-//
+
+netflix.director(director, function (error, data) {
+    if (error) {
+        console.log('error: ' + error);
+    }
+    let speechText = "";
+    console.log('data: ' + JSON.stringify(data));
+    if (!data.hasOwnProperty("message")) {
+        let directorString = moviedb.extractMovieTitles(data);
+        speechText = "Among others, " + director + " directed: " + directorString;
+    } else {
+        speechText = "I could not find a director in my database matching " + director;
+    }
+    console.log('speechText: ' + speechText);
+});
+
 // netflix.actor(actor, function (error, data) {
 //     if (error) {
 //         console.log('error: ' + error);

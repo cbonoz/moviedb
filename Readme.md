@@ -1,5 +1,7 @@
 # Movie Roulette - Alexa Skill Code Repository
  ---
+ 
+  <img src="./speechAssets/movie_roulette.png" alt="Movie Roulette" width="350"/>
 Database of movie facts and trivia using a combination of the NeflixRoulette API (http://netflixroulette.net/api/) 
 and the unofficial IMDB movie API (https://github.com/worr/node-imdb-api).
 
